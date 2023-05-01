@@ -11,6 +11,11 @@ namespace EcomWeb.Repository
         {
         }
 
+        public override IQueryable<User> GetAll()
+        {
+            return _context.Users.Include(b => b.Role);
+        }
+
         public User SearchByEmail(string email)
         {
             return GetByCondition(b => b.Email == email).FirstOrDefault();

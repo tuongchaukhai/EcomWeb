@@ -7,6 +7,8 @@ namespace EcomWeb.Repository
 {
     public interface IUserRepository : IRepositoryBase<User>
     {
+        new IQueryable<User> GetAll();
+
         User SearchByEmail(string email);
 
         IQueryable<User> GetByRole(string role);
