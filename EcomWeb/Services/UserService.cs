@@ -13,8 +13,10 @@ namespace EcomWeb.Services
 
         public User Create(User user)
         {
-            if (_userRepository.SearchByEmail(user.Email) == null)
+            if (_userRepository.SearchByEmail(user.Email) != null) //exist
                 return null;
+
+            user.CreatedDate = DateTime.Now; //Will add trigger in the future
 
             _userRepository.Create(user);
 

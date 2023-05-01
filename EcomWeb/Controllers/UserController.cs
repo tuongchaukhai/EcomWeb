@@ -25,13 +25,35 @@ namespace EcomWeb.Controllers
         {
             var users = _userService.GetAll();
 
-            return Ok(new ApiResponse()
+            return Ok(new ApiResponse
             {
                 StatusCode = 200,
-                Message = "Get all users successfully",
+                Message = "Get all users successfully.",
                 Data = _mapper.Map<IEnumerable<UserResultDto>>(users)
             });
         }
 
+        [HttpPost]
+        public IActionResult Create(UserAddDto userDto)
+        {
+            var user = _mapper.Map<User>(userDto);
+
+            var userAdd = _userService.Create(user);
+            if(userAdd == null) {
+                return BadRequest(new ApiResponse
+                {
+                    StatusCode = 400,
+                    Message = "The email already exists."
+                });
+            }
+
+            return Ok(new ApiResponse
+            {
+                StatusCode = 200,
+                Message = "User created successfully.",
+                Data = _mapper.Map<UserResultDto>(userAdd)
+            });
+
+        }
     }
 }
