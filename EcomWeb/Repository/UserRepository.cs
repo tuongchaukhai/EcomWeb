@@ -1,52 +1,26 @@
 ﻿using EcomWeb.Dtos.User;
 using EcomWeb.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace EcomWeb.Repository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        private MyDbContext _context;
-        public UserRepository(MyDbContext context)
+        public UserRepository(MyDbContext context) : base(context)
         {
-            _context = context;
         }
 
-        public void Create(UserAddDto userDto)
+        public User SearchByEmail(string email)
         {
-            var newUser = new User
-            {
-                Email = userDto.Email,
-                Password = userDto.Password,
-                FullName = userDto.FullName,
-                Active = userDto.Active,
-                RoleId = userDto.RoleId,
-                CreatedDate = DateTime.Now
-            };
-
-            _context.Users.Add(newUser);
-            _context.SaveChanges();
-
+            return GetByCondition(b => b.Email == email).FirstOrDefault();
         }
 
-        public void Delete(int id)
+        public IQueryable<User> GetByRole(string role)
         {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<User> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<User> GetByCondition(Expression<Func<User, bool>> condition)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(UserUpdateDto user)
-        {
-            throw new NotImplementedException();
+            return _context.Users
+                .Include(b => b.Role)
+                .Where(b => b.Role.RoleName == role);
         }
     }
 }
