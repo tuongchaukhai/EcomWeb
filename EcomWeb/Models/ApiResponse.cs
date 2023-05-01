@@ -1,9 +1,9 @@
 ﻿namespace EcomWeb.Models
 {
-    public class ApiResponse<T>
+    public class ApiResponse
     {
         public int StatusCode { get; set; }
         public string Message { get; set; }
-        public IEnumerable<T> Data { get; set; }
+        public object Data { get; set; }
     }
 }
