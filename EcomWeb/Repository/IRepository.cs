@@ -7,6 +7,7 @@ namespace EcomWeb.Repository
     public interface IRepositoryBase<T>
     {
         IQueryable<T> GetAll();
+        T GetById(int id);
         IQueryable<T> GetByCondition(Expression<Func<T, bool>> condition);
         void Create(T entity);
         void Update(T entity);

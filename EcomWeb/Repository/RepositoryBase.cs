@@ -12,27 +12,35 @@ namespace EcomWeb.Repository
 
         public IQueryable<T> GetAll()
         {
-            return _context.Set<T>().
+            return _context.Set<T>();
+        }
+
+        public T GetById(int id)
+        {
+            return _context.Set<T>().Find(id);
         }
 
         public IQueryable<T> GetByCondition(System.Linq.Expressions.Expression<Func<T, bool>> condition)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Where(condition);
         }
 
         public void Create(T entity)
         {
             _context.Set<T>().Add(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(T entity)
         {
-            throw new NotImplementedException();
+            _context.Remove(entity);
+            _context.SaveChanges();
         }
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            _context.SaveChanges();
         }
     }
 }
