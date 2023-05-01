@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using EcomWeb.Dtos.User;
-using EcomWeb.Models;
+﻿using EcomWeb.Models;
 using EcomWeb.Repository;
 
 namespace EcomWeb.Services
@@ -8,19 +6,16 @@ namespace EcomWeb.Services
     public class UserService : IUserService
     {
         private IUserRepository _userRepository;
-        private IMapper _mapper;
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
         }
 
-        public User Create(UserAddDto userDto)
+        public User Create(User user)
         {
-            if (_userRepository.SearchByEmail(userDto.Email) == null)
+            if (_userRepository.SearchByEmail(user.Email) == null)
                 return null;
 
-            var user = _mapper.Map<User>(userDto);
             _userRepository.Create(user);
 
             return user;
@@ -46,12 +41,11 @@ namespace EcomWeb.Services
             return _userRepository.GetByRole(roleName);
         }
 
-        public User Update(UserUpdateDto userDto)
+        public User Update(User user)
         {   
-            if (_userRepository.SearchByEmail(userDto.Email) == null)
+            if (_userRepository.SearchByEmail(user.Email) == null)
                 return null;
 
-            var user = _mapper.Map<User>(userDto);
             _userRepository.Update(user);
 
             return user;

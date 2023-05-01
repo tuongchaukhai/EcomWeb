@@ -9,8 +9,8 @@ namespace EcomWeb.Services
         IQueryable<User> GetAll();
         User GetById(int id);
         IQueryable<User> GetByRole(string roleName);
-        User Create(UserAddDto userDto);
-        User Update(UserUpdateDto userDto);
+        User Create(User user);
+        User Update(User user);
         void Delete(User user);
     }
 }
