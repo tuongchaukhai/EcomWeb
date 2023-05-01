@@ -1,3 +1,6 @@
+using AutoMapper;
+using EcomWeb.Dtos.User;
+using EcomWeb.Models;
 using EcomWeb.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +16,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+//AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddControllersWithViews();
+MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
+{
+    mc.CreateMap<UserAddDto, User>();
+});
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
 
 var app = builder.Build();
 
