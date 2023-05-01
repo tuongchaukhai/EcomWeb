@@ -6,5 +6,9 @@ namespace EcomWeb.Repository
     {
         public RoleRepository(MyDbContext context) : base(context) { }
 
+        public Role GetByRoleName(string roleName)
+        {
+            return GetByCondition(b => b.RoleName == roleName).FirstOrDefault();
+        }
     }
 }

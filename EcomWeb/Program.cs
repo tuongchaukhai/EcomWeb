@@ -1,4 +1,5 @@
 using AutoMapper;
+using EcomWeb.Dtos.Role;
 using EcomWeb.Dtos.User;
 using EcomWeb.Models;
 using EcomWeb.Repository;
@@ -24,8 +25,11 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllersWithViews();
 MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
 {
-    mc.CreateMap<UserAddDto, User>();
-    mc.CreateMap<User, UserResultDto>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.RoleName)); ;
+    mc.CreateMap<User, UserAddDto>().ReverseMap();
+    mc.CreateMap<User, UserResultDto>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.RoleName)).ReverseMap();
+
+    mc.CreateMap<Role, RoleAddDto>().ReverseMap();
+    mc.CreateMap<Role, RoleResultDto>().ReverseMap();
 });
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
@@ -36,6 +40,8 @@ builder.Services.AddSingleton(mapper);
 //Scoped
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 
 var app = builder.Build();
