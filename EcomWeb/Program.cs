@@ -1,4 +1,5 @@
 using AutoMapper;
+using EcomWeb.Dtos.Product;
 using EcomWeb.Dtos.Role;
 using EcomWeb.Dtos.User;
 using EcomWeb.Models;
@@ -30,6 +31,11 @@ MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
 
     mc.CreateMap<Role, RoleAddDto>().ReverseMap();
     mc.CreateMap<Role, RoleResultDto>().ReverseMap();
+
+    mc.CreateMap<Product, ProductResultDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName)).ReverseMap();
+    mc.CreateMap<Product, ProductAddDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName)).ReverseMap();
+    mc.CreateMap<Product, ProductUpdateDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName)).ReverseMap();
+
 });
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
@@ -42,6 +48,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 
 var app = builder.Build();
@@ -52,6 +60,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseHttpsRedirection();
 
