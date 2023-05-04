@@ -1,4 +1,5 @@
 using AutoMapper;
+using EcomWeb.Dtos.Category;
 using EcomWeb.Dtos.Product;
 using EcomWeb.Dtos.Role;
 using EcomWeb.Dtos.User;
@@ -35,6 +36,12 @@ MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
     mc.CreateMap<Product, ProductResultDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName)).ReverseMap();
     mc.CreateMap<Product, ProductAddDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName)).ReverseMap();
     mc.CreateMap<Product, ProductUpdateDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName)).ReverseMap();
+    mc.CreateMap<Category, CategoryResultDto>()
+  .ForMember(dest => dest.ParentCategory, opt => opt.MapFrom(src => src.Parent != null ? src.Parent.CategoryName : null));
+
+    mc.CreateMap<Category, CategoryAddDto>().ReverseMap();
+
+
 
 });
 IMapper mapper = mappingConfig.CreateMapper();
@@ -50,6 +57,8 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
 var app = builder.Build();
