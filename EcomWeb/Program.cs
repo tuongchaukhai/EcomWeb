@@ -34,7 +34,7 @@ MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
 
     mc.CreateMap<Product, ProductResultDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName)).ReverseMap();
     mc.CreateMap<Product, ProductAddDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName)).ReverseMap();
-    mc.CreateMap<Product, ProductUpdateDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName)).ReverseMap();
+    mc.CreateMap<Product, ProductUpdateDto>().ReverseMap();
     mc.CreateMap<Category, CategoryResultDto>()
   .ForMember(dest => dest.ParentCategory, opt => opt.MapFrom(src => src.Parent != null ? src.Parent.CategoryName : null));
 
