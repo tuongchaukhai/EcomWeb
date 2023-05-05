@@ -1,4 +1,5 @@
 using AutoMapper;
+using EcomWeb.Dtos.Category;
 using EcomWeb.Dtos.Product;
 using EcomWeb.Dtos.Role;
 using EcomWeb.Dtos.User;
@@ -43,6 +44,8 @@ MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
     //mc.CreateMap<Product, Product>()
     //    .ForMember(dest => dest.ProductId, opt => opt.Ignore()); // Ignore the ProductId property when mapping
 
+
+
 });
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
@@ -57,6 +60,8 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
 var app = builder.Build();
