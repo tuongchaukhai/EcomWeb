@@ -1,4 +1,5 @@
 ﻿using EcomWeb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcomWeb.Repository
 {
@@ -39,7 +40,10 @@ namespace EcomWeb.Repository
 
         public virtual void Update(T entity)
         {
-            _context.Update(entity);
+            var entry = _context.Entry(entity);
+            entry.State = EntityState.Detached;
+
+            _context.Set<T>().Update(entity);
             _context.SaveChanges();
         }
     }

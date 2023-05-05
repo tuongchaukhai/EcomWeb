@@ -50,15 +50,19 @@ namespace EcomWeb.Controllers
             {
                 StatusCode = 200,
                 Message = "Product created successfully.",
-                Data = product
+                Data = _mapper.Map<ProductResultDto>(product)
             });
         }
 
         [HttpPut]
         public ActionResult Update(ProductUpdateDto productDto)
         {
-            var product = _productService.Update(_mapper.Map<Product>(productDto));
-            if (product != null)
+            var productEdit = _productService.GetById(productDto.ProductId);
+
+            _mapper.Map(productDto, productEdit);
+            var product = _productService.Update(productEdit);
+
+            if (product == null)
                 return BadRequest(new ApiResponse
                 {
                     StatusCode = 400,
@@ -69,7 +73,7 @@ namespace EcomWeb.Controllers
             {
                 StatusCode = 200,
                 Message = "Product created successfully.",
-                Data = product
+                Data = _mapper.Map<ProductResultDto>(product)
             });
         }
 

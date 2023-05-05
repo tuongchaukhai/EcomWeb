@@ -2,7 +2,7 @@
 {
     public class ProductUpdateDto
     {
-        public string ProductId { get; set; } = null!;
+        public int ProductId { get; set; }
 
         public string ProductName { get; set; } = null!;
 
@@ -34,6 +34,6 @@
 
         public int UnitInStock { get; set; }
 
-        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
     }
 }
