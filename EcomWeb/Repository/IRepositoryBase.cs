@@ -6,11 +6,11 @@ namespace EcomWeb.Repository
 {
     public interface IRepositoryBase<T>
     {
-        IQueryable<T> GetAll();
-        T GetById(int id);
-        IQueryable<T> GetByCondition(Expression<Func<T, bool>> condition);
-        void Create(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        Task <IEnumerable<T>> GetAll();
+        Task <T> GetById(int id);
+        Task <IEnumerable<T>> GetByCondition(Expression<Func<T, bool>> condition);
+        Task Create(T entity);
+        Task Update(T entity);
+        Task Delete(T entity);
     }
 }

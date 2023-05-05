@@ -4,6 +4,6 @@ namespace EcomWeb.Repository
 {
     public interface IRoleRepository : IRepositoryBase<Role>
     {
-        Role GetByRoleName(string roleName);
+        Task<Role> GetByRoleName(string roleName);
     }
 }

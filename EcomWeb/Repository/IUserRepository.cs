@@ -7,10 +7,10 @@ namespace EcomWeb.Repository
 {
     public interface IUserRepository : IRepositoryBase<User>
     {
-        new IQueryable<User> GetAll();
+        new Task<IEnumerable<User>> GetAll();
 
-        User SearchByEmail(string email);
+        Task<User> SearchByEmail(string email);
 
-        IQueryable<User> GetByRole(string role);
+        Task<IEnumerable<User>> GetByRole(string role);
     }
 }

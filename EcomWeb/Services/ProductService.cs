@@ -11,58 +11,57 @@ namespace EcomWeb.Services
             _productRepository = productRepository;
         }
 
-        public Product Create(Product product)
+        public async Task<Product> Create(Product product)
         {
             if (GetByTitle(product.ProductName) != null)
                 return null;
 
             product.CreatedDate = DateTime.Now;
-            _productRepository.Create(product);
+            await _productRepository.Create(product);
             return product;
         }
 
-        public bool Delete(Product product)
+        public async Task<bool> Delete(Product product)
         {
             if (GetById(product.ProductId) == null)
                 return false;
-            
-            _productRepository.Delete(product);
+
+            await _productRepository.Delete(product);
             return true;
         }
 
-        public IQueryable<Product> GetAll()
+        public async Task<IEnumerable<Product>> GetAll()
         {
-            return _productRepository.GetAll();
+            return await _productRepository.GetAll();
         }
 
-        public IQueryable<Product> GetByCategory(string categoryName)
+        public async Task<IEnumerable<Product>> GetByCategory(string categoryName)
         {
-            return _productRepository.GetByCategory(categoryName);
+            return await _productRepository.GetByCategory(categoryName);
         }
 
-
-        public IQueryable<Product> GetByPriceRange(double min, double max)
+        public async Task<IEnumerable<Product>> GetByPriceRange(double min, double max)
         {
-            return _productRepository.GetByPriceRange(min, max);
+            return await _productRepository.GetByPriceRange(min, max);
         }
 
-        public Product GetByTitle(string title)
+        public async Task<Product> GetByTitle(string title)
         {
-            return _productRepository.GetByTitle(title);
+            return await _productRepository.GetByTitle(title);
         }
 
-        public Product GetById(int id)
+        public async Task<Product> GetById(int id)
         {
-            return _productRepository.GetById(id);
+            return await _productRepository.GetById(id);
         }
 
-        public Product Update(Product product)
+        public async Task<Product> Update(Product product)
         {
             if (GetById(product.ProductId) == null)
                 return null;
 
             product.LastModified = DateTime.Now;
-            _productRepository.Update(product);
+            await _productRepository.Update(product);
             return product;
         }
     }

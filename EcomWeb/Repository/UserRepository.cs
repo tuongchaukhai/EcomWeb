@@ -11,21 +11,21 @@ namespace EcomWeb.Repository
         {
         }
 
-        public override IQueryable<User> GetAll()
+        public override async Task<IEnumerable<User>> GetAll()
         {
-            return _context.Users.Include(b => b.Role);
+            return await _context.Users.Include(b => b.Role).ToListAsync();
         }
 
-        public User SearchByEmail(string email)
+        public async Task<User> SearchByEmail(string email)
         {
-            return GetByCondition(b => b.Email == email).FirstOrDefault();
+            return await _context.Users.Where(b=>b.Email == email).FirstOrDefaultAsync();
         }
 
-        public IQueryable<User> GetByRole(string role)
+        public async Task<IEnumerable<User>> GetByRole(string role)
         {
-            return _context.Users
+            return await _context.Users
                 .Include(b => b.Role)
-                .Where(b => b.Role.RoleName == role);
+                .Where(b => b.Role.RoleName == role).ToListAsync();
         }
     }
 }

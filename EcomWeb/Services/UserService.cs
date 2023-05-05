@@ -11,45 +11,48 @@ namespace EcomWeb.Services
             _userRepository = userRepository;
         }
 
-        public User Create(User user)
+        public async Task<User> Create(User user)
         {
             if (_userRepository.SearchByEmail(user.Email) != null) //exist
                 return null;
 
             user.CreatedDate = DateTime.Now; //Will add trigger in the future
 
-            _userRepository.Create(user);
+            await _userRepository.Create(user);
 
             return user;
         }
 
-        public void Delete(User user)
+        public async Task<bool> Delete(User user)
         {
-            _userRepository.Delete(user);
+            if (GetById(user.UserId) == null)
+                return false;
+
+            await _userRepository.Delete(user);
+            return true;
         }
 
-        public IQueryable<User> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
-            return _userRepository.GetAll();
+            return await _userRepository.GetAll();
         }
 
-        public User GetById(int id)
+        public async Task<User> GetById(int id)
         {
-            return _userRepository.GetById(id);
+            return await _userRepository.GetById(id);
         }
 
-        public IQueryable<User> GetByRole(string roleName)
+        public async Task<IEnumerable<User>> GetByRole(string roleName)
         {
-            return _userRepository.GetByRole(roleName);
+            return await _userRepository.GetByRole(roleName);
         }
 
-        public User Update(User user)
+        public async Task<User> Update(User user)
         {   
             if (_userRepository.SearchByEmail(user.Email) == null)
                 return null;
 
-            _userRepository.Update(user);
-
+            await _userRepository.Update(user);
             return user;
         }
     }

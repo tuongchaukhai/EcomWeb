@@ -4,11 +4,11 @@ namespace EcomWeb.Services
 {
     public interface ICategoryService
     {
-        IQueryable<Category> GetAll();
-        Category GetById(int id);
-        Category Create(Category category);
-        Category Update(Category category);
-        bool Delete(Category category);
-        Category GetCategoryByName(string categoryName);
+        Task<IEnumerable<Category>> GetAll();
+        Task<Category> GetById(int id);
+        Task<Category> Create(Category category);
+        Task<Category> Update(Category category);
+        Task<bool> Delete(Category category);
+        Task<Category> GetCategoryByName(string categoryName);
     }
 }

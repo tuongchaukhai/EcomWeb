@@ -11,32 +11,32 @@ namespace EcomWeb.Services
             _roleRepository = roleRepository;
         }
 
-        public Role Create(Role role)
+        public async Task<Role> Create(Role role)
         {
             if (_roleRepository.GetByRoleName(role.RoleName) != null)
                 return null;
 
-            _roleRepository.Create(role);
+            await _roleRepository.Create(role);
 
             return role;
         }
 
-        public void Delete(Role role)
+        public async void Delete(Role role)
         {
             throw new NotImplementedException();
         }
 
-        public IQueryable<Role> GetAll()
+        public async Task<IEnumerable<Role>> GetAll()
         {
-            return _roleRepository.GetAll();
+            return await _roleRepository.GetAll();
         }
 
-        public Role GetById(int id)
+        public async Task<Role> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Role Update(Role role)
+        public async Task<Role> Update(Role role)
         {
             throw new NotImplementedException();
         }

@@ -3,48 +3,49 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EcomWeb.Repository
 {
-    public class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        protected MyDbContext _context { get; set; }
+        protected readonly MyDbContext _context;
+
         public RepositoryBase(MyDbContext context)
         {
             _context = context;
         }
 
-        public virtual IQueryable<T> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAll()
         {
-            return _context.Set<T>();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public virtual T GetById(int id)
+        public virtual async Task<T> GetById(int id)
         {
-            return _context.Set<T>().Find(id);
+            return await _context.Set<T>().FindAsync(id);
         }
 
-        public virtual IQueryable<T> GetByCondition(System.Linq.Expressions.Expression<Func<T, bool>> condition)
+        public virtual async Task<IEnumerable<T>> GetByCondition(System.Linq.Expressions.Expression<Func<T, bool>> condition)
         {
-            return _context.Set<T>().Where(condition);
+            return await _context.Set<T>().Where(condition).ToListAsync();
         }
 
-        public virtual void Create(T entity)
+        public virtual async Task Create(T entity)
         {
-            _context.Set<T>().Add(entity);
-            _context.SaveChanges();
+            await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public virtual void Delete(T entity)
+        public virtual async Task Delete(T entity)
         {
-            _context.Remove(entity);
-            _context.SaveChanges();
+            _context.Set<T>().Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public virtual void Update(T entity)
+        public virtual async Task Update(T entity)
         {
-            var entry = _context.Entry(entity);
-            entry.State = EntityState.Detached;
+            //var entry = _context.Entry(entity);
+            //entry.State = EntityState.Detached;
 
             _context.Set<T>().Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

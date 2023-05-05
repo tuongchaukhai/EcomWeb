@@ -4,6 +4,6 @@ namespace EcomWeb.Repository
 {
     public interface ICategoryRepository : IRepositoryBase<Category>
     {
-        Category GetCategoryByName(string categoryName);
+        Task<Category> GetCategoryByName(string categoryName);
     }
 }

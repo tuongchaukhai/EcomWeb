@@ -19,9 +19,9 @@ namespace EcomWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var categories = _categoryService.GetAll();
+            var categories = await _categoryService.GetAll();
 
             return Ok(new ApiResponse
             {
@@ -32,9 +32,9 @@ namespace EcomWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CategoryAddDto categoryDto)
+        public async Task<IActionResult> Create(CategoryAddDto categoryDto)
         {
-            var category = _categoryService.Create(_mapper.Map<Category>(categoryDto));
+            var category = await _categoryService.Create(_mapper.Map<Category>(categoryDto));
             if (category == null)
                 return BadRequest(new ApiResponse
                 {
@@ -51,9 +51,9 @@ namespace EcomWeb.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(CategoryUpdateDto categoryDto)
+        public async Task<IActionResult> Update(CategoryUpdateDto categoryDto)
         {
-            var category = _categoryService.Update(_mapper.Map<Category>(categoryDto));
+            var category = await _categoryService.Update(_mapper.Map<Category>(categoryDto));
             if (category == null)
                 return BadRequest(new ApiResponse
                 {
@@ -70,15 +70,17 @@ namespace EcomWeb.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(CategoryResultDto categoryDto)
+        public async Task<IActionResult> Delete(int id)
         {
-            if(!_categoryService.Delete(_mapper.Map<Category>(categoryDto)))
+            var category = await _categoryService.GetById(id);
+            if(category == null)
                 return BadRequest(new ApiResponse
                 {
                     StatusCode = 400,
                     Message = "Category doesn't exists.",
                 });
 
+            await _categoryService.Delete(category);
             return Ok(new ApiResponse
             {
                 StatusCode = 200,

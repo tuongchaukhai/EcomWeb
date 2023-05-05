@@ -13,7 +13,7 @@ namespace EcomWeb.Services
             _categoryRepository = categoryRepository;
         }
 
-        public Category Create(Category category)
+        public async Task<Category> Create(Category category)
         {
             if (GetCategoryByName(category.CategoryName) != null)
                 return null;
@@ -22,7 +22,7 @@ namespace EcomWeb.Services
             return category;
         }
 
-        public bool Delete(Category category)
+        public async Task<bool> Delete(Category category)
         {
             if (GetById(category.CategoryId) == null)
                 return false;
@@ -31,27 +31,27 @@ namespace EcomWeb.Services
             return true;
         }
 
-        public IQueryable<Category> GetAll()
+        public async Task<IEnumerable<Category>> GetAll()
         {
-            return _categoryRepository.GetAll();
+            return await _categoryRepository.GetAll();
         }
 
-        public Category GetById(int id)
+        public async Task<Category> GetById(int id)
         {
-            return _categoryRepository.GetById(id);
+            return await _categoryRepository.GetById(id);
         }
 
-        public Category GetCategoryByName(string categoryName)
+        public async Task<Category> GetCategoryByName(string categoryName)
         {
-            return _categoryRepository.GetCategoryByName(categoryName);
+            return await _categoryRepository.GetCategoryByName(categoryName);
         }
 
-        public Category Update(Category category)
+        public async Task<Category> Update(Category category)
         {
             if (GetById(category.CategoryId) == null)
                 return null;
 
-            _categoryRepository.Update(category);
+            await _categoryRepository.Update(category);
             return category;
         }
     }

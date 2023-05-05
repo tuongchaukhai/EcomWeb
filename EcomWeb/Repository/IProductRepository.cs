@@ -1,15 +1,14 @@
 ﻿using EcomWeb.Models;
-using System.Diagnostics.Eventing.Reader;
 
 namespace EcomWeb.Repository
 {
     public interface IProductRepository : IRepositoryBase<Product>
     {
-        new IQueryable<Product> GetAll();
-        Product GetByTitle(string title);
+        new Task<IEnumerable<Product>> GetAll();
+        Task<Product> GetByTitle(string title);
 
-        IQueryable<Product> GetByCategory(string categoryName);
+        Task<IEnumerable<Product>> GetByCategory(string categoryName);
 
-        IQueryable<Product> GetByPriceRange(double min, double max);
+        Task<IEnumerable<Product>> GetByPriceRange(double min, double max);
     }
 }

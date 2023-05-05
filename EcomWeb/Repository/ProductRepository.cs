@@ -7,27 +7,28 @@ namespace EcomWeb.Repository
     {
         public ProductRepository(MyDbContext context) : base(context) { }
 
-        public override IQueryable<Product> GetAll()
+        public override async Task<IEnumerable<Product>> GetAll()
         {
-            return _context.Products.Include(b => b.Category);
+            return await _context.Products.Include(b => b.Category).ToListAsync();
         }
 
-        public Product GetByTitle(string title)
+        public async Task<Product> GetByTitle(string title)
         {
-            return GetByCondition(b => b.ProductName == title).FirstOrDefault();
-        }
-
-        public IQueryable<Product> GetByCategory(string categoryName)
-        {
-
-            return _context.Products
+            return await _context.Products
                 .Include(b => b.Category)
-                .Where(b => b.Category.CategoryName == categoryName);
+                .Where(b => b.ProductName == title).FirstOrDefaultAsync();
         }
 
-        public IQueryable<Product> GetByPriceRange(double min, double max)
+        public async Task<IEnumerable<Product>> GetByCategory(string categoryName)
         {
-            return GetByCondition(b => b.Price >= min && b.Price <= max);
+            return await _context.Products
+                .Include(b => b.Category)
+                .Where(b => b.Category.CategoryName == categoryName).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetByPriceRange(double min, double max)
+        {
+            return await GetByCondition(b => b.Price >= min && b.Price <= max);
         }
     }
 }

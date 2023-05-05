@@ -1,13 +1,14 @@
 ﻿using EcomWeb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcomWeb.Repository
 {
     public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
     {
         public CategoryRepository(MyDbContext context) : base(context) { }
-        public Category GetCategoryByName(string categoryName)
+        public async Task<Category> GetCategoryByName(string categoryName)
         {
-            return GetByCondition(b=>b.CategoryName == categoryName).FirstOrDefault();
+            return await _context.Categories.Where(b=>b.CategoryName == categoryName).FirstOrDefaultAsync();
         }
     }
 }

@@ -21,9 +21,9 @@ namespace EcomWeb.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var products = _productService.GetAll();
+            var products = await _productService.GetAll();
 
             if (!products.Any()) return NotFound();
 
@@ -36,9 +36,9 @@ namespace EcomWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ProductAddDto productDto)
+        public async Task<ActionResult> Create(ProductAddDto productDto)
         {
-            var product = _productService.Create(_mapper.Map<Product>(productDto));
+            var product = await _productService.Create(_mapper.Map<Product>(productDto));
             if (product != null)
                 return BadRequest(new ApiResponse
                 {
@@ -55,12 +55,13 @@ namespace EcomWeb.Controllers
         }
 
         [HttpPut]
-        public ActionResult Update(ProductUpdateDto productDto)
+        public async Task<ActionResult> Update(ProductUpdateDto productDto)
         {
-            var productEdit = _productService.GetById(productDto.ProductId);
-
+            var productEdit = await _productService.GetById(productDto.ProductId);
             _mapper.Map(productDto, productEdit);
-            var product = _productService.Update(productEdit);
+            var product = await _productService.Update(productEdit);
+
+            //var product = await _productService.Update(_mapper.Map<Product>(productDto));
 
             if (product == null)
                 return BadRequest(new ApiResponse
@@ -72,21 +73,23 @@ namespace EcomWeb.Controllers
             return Ok(new ApiResponse
             {
                 StatusCode = 200,
-                Message = "Product created successfully.",
+                Message = "Product updated successfully.",
                 Data = _mapper.Map<ProductResultDto>(product)
             });
         }
 
         [HttpDelete]
-        public ActionResult Delete(ProductResultDto productDto)
+        public async Task<ActionResult> Delete(int id)
         {
-            if(!_productService.Delete(_mapper.Map<Product>(productDto)))
-                 return BadRequest(new ApiResponse
-                 {
-                     StatusCode = 400,
-                     Message = "This product doesn't exists."
-                 });
+            var product = await _productService.GetById(id);
+            if (product == null)
+                return BadRequest(new ApiResponse
+                {
+                    StatusCode = 400,
+                    Message = "This product doesn't exists."
+                });
 
+            await _productService.Delete(product);
             return Ok(new ApiResponse
             {
                 StatusCode = 200,

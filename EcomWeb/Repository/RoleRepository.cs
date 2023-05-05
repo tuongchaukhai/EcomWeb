@@ -1,4 +1,5 @@
 ﻿using EcomWeb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcomWeb.Repository
 {
@@ -6,9 +7,9 @@ namespace EcomWeb.Repository
     {
         public RoleRepository(MyDbContext context) : base(context) { }
 
-        public Role GetByRoleName(string roleName)
+        public async Task<Role> GetByRoleName(string roleName)
         {
-            return GetByCondition(b => b.RoleName == roleName).FirstOrDefault();
+            return await _context.Roles.Where(b => b.RoleName == roleName).FirstOrDefaultAsync();
         }
     }
 }

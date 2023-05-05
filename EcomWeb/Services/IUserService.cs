@@ -6,11 +6,11 @@ namespace EcomWeb.Services
 {
     public interface IUserService
     {
-        IQueryable<User> GetAll();
-        User GetById(int id);
-        IQueryable<User> GetByRole(string roleName);
-        User Create(User user);
-        User Update(User user);
-        void Delete(User user);
+        Task<IEnumerable<User>> GetAll();
+        Task<User> GetById(int id);
+        Task<IEnumerable<User>> GetByRole(string roleName);
+        Task<User> Create(User user);
+        Task<User> Update(User user);
+        Task<bool> Delete(User user);
     }
 }

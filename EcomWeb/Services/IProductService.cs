@@ -7,13 +7,13 @@ namespace EcomWeb.Services
 {
     public interface IProductService
     {
-        IQueryable<Product> GetAll();
-        Product GetById(int id);
-        Product GetByTitle(string title);
-        IQueryable<Product> GetByPriceRange(double min, double max);
-        IQueryable<Product> GetByCategory(string categoryName);
-        Product Create(Product product);
-        Product Update(Product product);
-        bool Delete(Product product);
+        Task<IEnumerable<Product>> GetAll();
+        Task<Product> GetById(int id);
+        Task<Product> GetByTitle(string title);
+        Task<IEnumerable<Product>> GetByPriceRange(double min, double max);
+        Task<IEnumerable<Product>> GetByCategory(string categoryName);
+        Task<Product> Create(Product product);
+        Task<Product> Update(Product product);
+        Task<bool> Delete(Product product);
     }
 }
