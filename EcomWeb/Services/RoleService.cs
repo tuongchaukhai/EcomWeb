@@ -13,7 +13,7 @@ namespace EcomWeb.Services
 
         public async Task<Role> Create(Role role)
         {
-            if (_roleRepository.GetByRoleName(role.RoleName) != null)
+            if (_roleRepository.GetByRoleName(role.RoleName).Result != null)
                 return null;
 
             await _roleRepository.Create(role);

@@ -15,7 +15,7 @@ namespace EcomWeb.Services
 
         public async Task<Category> Create(Category category)
         {
-            if (GetCategoryByName(category.CategoryName) != null)
+            if (GetCategoryByName(category.CategoryName).Result != null)
                 return null;
 
             _categoryRepository.Create(category);
@@ -24,7 +24,7 @@ namespace EcomWeb.Services
 
         public async Task<bool> Delete(Category category)
         {
-            if (GetById(category.CategoryId) == null)
+            if (GetById(category.CategoryId).Result == null)
                 return false;
 
             _categoryRepository.Delete(category);
@@ -48,7 +48,7 @@ namespace EcomWeb.Services
 
         public async Task<Category> Update(Category category)
         {
-            if (GetById(category.CategoryId) == null)
+            if (GetById(category.CategoryId).Result == null)
                 return null;
 
             await _categoryRepository.Update(category);

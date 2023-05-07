@@ -36,7 +36,7 @@ namespace EcomWeb.Dtos.Product
 
         public int UnitInStock { get; set; }
 
-        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
 
     }
 }

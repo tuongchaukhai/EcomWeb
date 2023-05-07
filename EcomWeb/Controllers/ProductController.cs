@@ -39,7 +39,7 @@ namespace EcomWeb.Controllers
         public async Task<ActionResult> Create(ProductAddDto productDto)
         {
             var product = await _productService.Create(_mapper.Map<Product>(productDto));
-            if (product != null)
+            if (product == null)
                 return BadRequest(new ApiResponse
                 {
                     StatusCode = 400,

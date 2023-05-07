@@ -13,7 +13,7 @@ namespace EcomWeb.Services
 
         public async Task<Product> Create(Product product)
         {
-            if (GetByTitle(product.ProductName) != null)
+            if (GetByTitle(product.ProductName).Result != null)
                 return null;
 
             product.CreatedDate = DateTime.Now;
@@ -23,7 +23,7 @@ namespace EcomWeb.Services
 
         public async Task<bool> Delete(Product product)
         {
-            if (GetById(product.ProductId) == null)
+            if (GetById(product.ProductId).Result == null)
                 return false;
 
             await _productRepository.Delete(product);
@@ -57,7 +57,7 @@ namespace EcomWeb.Services
 
         public async Task<Product> Update(Product product)
         {
-            if (GetById(product.ProductId) == null)
+            if (GetById(product.ProductId).Result == null)
                 return null;
 
             product.LastModified = DateTime.Now;
