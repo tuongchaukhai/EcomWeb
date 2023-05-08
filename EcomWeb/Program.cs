@@ -6,7 +6,10 @@ using EcomWeb.Dtos.User;
 using EcomWeb.Models;
 using EcomWeb.Repository;
 using EcomWeb.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +24,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<AppSetting>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:SecretKey"])),
+
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 //AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
@@ -77,6 +94,7 @@ app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
