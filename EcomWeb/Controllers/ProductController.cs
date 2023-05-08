@@ -21,17 +21,17 @@ namespace EcomWeb.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult> GetAll(int page = 1, int pageSize = 10)
         {
-            var products = await _productService.GetAll();
+            var products = await _productService.GetAll(page, pageSize);
 
-            if (!products.Any()) return NotFound();
+            if (!products.Products.Any()) return NotFound();
 
             return Ok(new ApiResponse
             {
                 StatusCode = 200,
                 Message = "Get all products successfully.",
-                Data = _mapper.Map<IEnumerable<ProductResultDto>>(products)
+                Data = new { products = _mapper.Map<IEnumerable<ProductResultDto>>(products.Products), totalRecords =  products.TotalRecords }
             });
         }
 

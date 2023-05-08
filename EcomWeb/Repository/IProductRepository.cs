@@ -1,11 +1,12 @@
-﻿using EcomWeb.Models;
+﻿using EcomWeb.Dtos.Product;
+using EcomWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomWeb.Repository
 {
     public interface IProductRepository : IRepositoryBase<Product>
     {
-        new Task<IEnumerable<Product>> GetAll(int page = 1, int pageSize = 10);
+        new Task<ProductsPage> GetAll(int page = 1, int pageSize = 10);
         Task<Product> GetByTitle(string title);
 
         Task<IEnumerable<Product>> GetByCategory(string categoryName);

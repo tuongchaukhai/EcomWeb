@@ -1,4 +1,5 @@
-﻿using EcomWeb.Models;
+﻿using EcomWeb.Dtos.Product;
+using EcomWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +9,14 @@ namespace EcomWeb.Repository
     {
         public ProductRepository(MyDbContext context) : base(context) { }
 
-        public async Task<IEnumerable<Product>> GetAll(int page = 1, int pageSize = 10)
+        public async Task<ProductsPage> GetAll(int page = 1, int pageSize = 10)
         {
-            return await _context.Products.Include(b => b.Category).Skip((page - 1) * pageSize).ToListAsync();
+            var products = await _context.Products.Include(b => b.Category).ToListAsync();
+            int totalRecords = products.Count();
+
+            products =  products.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return new ProductsPage { Products = products, TotalRecords = totalRecords };
         }
 
         public async Task<Product> GetByTitle(string title)
@@ -46,7 +52,7 @@ namespace EcomWeb.Repository
                 products = products.Where(b => b.Category.CategoryName == categoryName);
             }
 
-            products.Where(b => b.Price >= minPrice && b.Price <= maxPrice);
+            products = products.Where(b => b.Price >= minPrice && b.Price <= maxPrice);
 
             //Sorting
             if (!string.IsNullOrEmpty(sortBy))

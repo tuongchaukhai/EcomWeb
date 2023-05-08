@@ -1,4 +1,5 @@
-﻿using EcomWeb.Models;
+﻿using EcomWeb.Dtos.Product;
+using EcomWeb.Models;
 using EcomWeb.Repository;
 
 namespace EcomWeb.Services
@@ -30,9 +31,9 @@ namespace EcomWeb.Services
             return true;
         }
 
-        public async Task<IEnumerable<Product>> GetAll()
+        public async Task<ProductsPage> GetAll(int page = 1, int pageSize = 10)
         {
-            return await _productRepository.GetAll();
+            return await _productRepository.GetAll(page,pageSize);
         }
 
         public async Task<IEnumerable<Product>> GetByCategory(string categoryName)
