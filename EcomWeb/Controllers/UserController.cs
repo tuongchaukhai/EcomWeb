@@ -36,31 +36,6 @@ namespace EcomWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(UserAddDto userDto)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    StatusCode = 400,
-                    Message = "Invalid format."
-                });
-            }
-
-            {
-                return BadRequest(new ApiResponse
-                {
-                    StatusCode = 400,
-                    Message = "Invalid format."
-                });
-            }
-
-            {
-                return BadRequest(new ApiResponse
-                {
-                    StatusCode = 400,
-                    Message = "Invalid format."
-                });
-            }
-
             var userAdd = await _userService.Create(_mapper.Map<User>(userDto));
 
             if(userAdd == null) {
@@ -78,6 +53,25 @@ namespace EcomWeb.Controllers
                 Data = _mapper.Map<UserResultDto>(userAdd)
             });
 
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var user = await _userService.GetById(id);
+            if (user == null)
+                return BadRequest(new ApiResponse
+                {
+                    StatusCode = 400,
+                    Message = "This user doesn't exists."
+                });
+
+            await _userService.Delete(user);
+            return Ok(new ApiResponse
+            {
+                StatusCode = 200,
+                Message = "User removed successfully.",
+            });
         }
     }
 }
