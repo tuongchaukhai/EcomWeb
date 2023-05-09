@@ -1,4 +1,5 @@
-﻿using EcomWeb.Models;
+﻿using EcomWeb.Dtos.User;
+using EcomWeb.Models;
 using EcomWeb.Repository;
 
 namespace EcomWeb.Services
@@ -32,9 +33,9 @@ namespace EcomWeb.Services
             return true;
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<UsersPage> GetAll(int page = 1, int pageSize = 10)
         {
-            return await _userRepository.GetAll();
+            return await _userRepository.GetAll(page, pageSize);
         }
 
         public async Task<User> GetById(int id)
