@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EcomWeb.Dtos.Product;
 using EcomWeb.Dtos.User;
 using EcomWeb.Models;
 using EcomWeb.Services;
@@ -71,6 +72,30 @@ namespace EcomWeb.Controllers
             {
                 StatusCode = 200,
                 Message = "User removed successfully.",
+            });
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update(UserUpdateDto userDto)
+        {
+            var userEdit = await _userService.GetById(userDto.UserId);
+            _mapper.Map(userDto, userEdit);
+            var user = await _userService.Update(userEdit);
+
+            //var product = await _productService.Update(_mapper.Map<Product>(productDto));
+
+            if (user == null)
+                return BadRequest(new ApiResponse
+                {
+                    StatusCode = 400,
+                    Message = "This user doesn't exists."
+                });
+
+            return Ok(new ApiResponse
+            {
+                StatusCode = 200,
+                Message = "User updated successfully.",
+                Data = _mapper.Map<UserResultDto>(user)
             });
         }
     }

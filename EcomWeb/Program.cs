@@ -69,6 +69,7 @@ MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
 {
     mc.CreateMap<User, UserAddDto>().ReverseMap();
     mc.CreateMap<User, UserResultDto>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.RoleName)).ReverseMap();
+    mc.CreateMap<User, UserUpdateDto>().ReverseMap();
 
     mc.CreateMap<Role, RoleAddDto>().ReverseMap();
     mc.CreateMap<Role, RoleResultDto>().ReverseMap();

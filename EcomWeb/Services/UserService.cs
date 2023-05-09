@@ -51,10 +51,7 @@ namespace EcomWeb.Services
         }
 
         public async Task<User> Update(User user)
-        {   
-            if (_userRepository.SearchByEmail(user.Email).Result == null)
-                return null;
-
+        { 
             await _userRepository.Update(user);
             return user;
         }
