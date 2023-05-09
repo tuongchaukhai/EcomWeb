@@ -7,7 +7,7 @@ namespace EcomWeb.Repository
 {
     public interface IUserRepository : IRepositoryBase<User>
     {
-        new Task<IEnumerable<User>> GetAll();
+        new Task<UsersPage> GetAll(int page = 1, int pageSize = 10);
 
         Task<User> SearchByEmail(string email);
 

@@ -6,7 +6,7 @@ namespace EcomWeb.Services
 {
     public interface IUserService
     {
-        Task<IEnumerable<User>> GetAll();
+        Task<UsersPage> GetAll(int page = 1, int pageSize = 10);
         Task<User> GetById(int id);
         Task<IEnumerable<User>> GetByRole(string roleName);
         Task<User> Create(User user);

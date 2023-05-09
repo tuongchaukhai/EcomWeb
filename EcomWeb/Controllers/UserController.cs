@@ -21,15 +21,15 @@ namespace EcomWeb.Controllers
 
  
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll(int page = 1, int pageSize = 10)
         {
-            var users = _userService.GetAll();
+            var users = await _userService.GetAll(page, pageSize);
 
             return Ok(new ApiResponse
             {
                 StatusCode = 200,
                 Message = "Get all users successfully.",
-                Data = _mapper.Map<IEnumerable<UserResultDto>>(users)
+                Data = new { users = _mapper.Map<IEnumerable<UserResultDto>>(users.Users), totalRecords = users.TotalRecords}
             });
         }
 
