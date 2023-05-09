@@ -34,11 +34,9 @@ namespace EcomWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(UserAddDto userDto)
+        public async Task<IActionResult> Create(UserAddDto userDto)
         {
-            var user = _mapper.Map<User>(userDto);
-
-            var userAdd = _userService.Create(user);
+            var userAdd = await _userService.Create(_mapper.Map<User>(userDto));
             if(userAdd == null) {
                 return BadRequest(new ApiResponse
                 {
