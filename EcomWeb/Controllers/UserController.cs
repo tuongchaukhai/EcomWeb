@@ -36,6 +36,31 @@ namespace EcomWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(UserAddDto userDto)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    StatusCode = 400,
+                    Message = "Invalid format."
+                });
+            }
+
+            {
+                return BadRequest(new ApiResponse
+                {
+                    StatusCode = 400,
+                    Message = "Invalid format."
+                });
+            }
+
+            {
+                return BadRequest(new ApiResponse
+                {
+                    StatusCode = 400,
+                    Message = "Invalid format."
+                });
+            }
+
             var userAdd = await _userService.Create(_mapper.Map<User>(userDto));
             if(userAdd == null) {
                 return BadRequest(new ApiResponse
