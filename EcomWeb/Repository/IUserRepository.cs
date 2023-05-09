@@ -9,8 +9,8 @@ namespace EcomWeb.Repository
     {
         new Task<UsersPage> GetAll(int page = 1, int pageSize = 10);
 
-        User SearchByEmail(string email);
+        Task<User> SearchByEmail(string email);
 
-        IQueryable<User> GetByRole(string role);
+        Task<IEnumerable<User>> GetByRole(string role);
     }
 }

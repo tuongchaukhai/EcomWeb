@@ -29,10 +29,9 @@ namespace EcomWeb.Services
                     new Claim("FullName", user.FullName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(ClaimTypes.Role, user.Role.RoleName),
-                    new Claim("Id", user.UserId.ToString()),
-
+                    //new Claim("Id", user.UserId.ToString()),
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(5),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey
                 (secretKeyBytes), SecurityAlgorithms.HmacSha512Signature)
             };

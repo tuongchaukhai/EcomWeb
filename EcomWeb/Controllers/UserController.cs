@@ -62,6 +62,7 @@ namespace EcomWeb.Controllers
             }
 
             var userAdd = await _userService.Create(_mapper.Map<User>(userDto));
+
             if(userAdd == null) {
                 return BadRequest(new ApiResponse
                 {

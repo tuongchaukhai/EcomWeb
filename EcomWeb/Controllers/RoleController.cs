@@ -19,9 +19,9 @@ namespace EcomWeb.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            var roles = _roleService.GetAll();
+            var roles = await _roleService.GetAll();
 
             return Ok(new ApiResponse
             {

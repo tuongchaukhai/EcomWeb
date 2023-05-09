@@ -77,7 +77,7 @@ MapperConfiguration mappingConfig = new MapperConfiguration(mc =>
     mc.CreateMap<Product, ProductAddDto>().ReverseMap();
     mc.CreateMap<Product, ProductUpdateDto>().ReverseMap();
     mc.CreateMap<Category, CategoryResultDto>()
-  .ForMember(dest => dest.ParentCategory, opt => opt.MapFrom(src => src.Parent != null ? src.Parent.CategoryName : null));
+  .ForMember(dest => dest.ParentCategory, opt => opt.MapFrom(src => src.Parent != null ? src.Parent.CategoryName : null)).ReverseMap();
 
     mc.CreateMap<Category, CategoryAddDto>().ReverseMap();
 
@@ -102,7 +102,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-
+builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 
