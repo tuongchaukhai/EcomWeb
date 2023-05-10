@@ -21,7 +21,7 @@ public partial class Product
 
     public string? Video { get; set; }
 
-    public DateTime CreatedDate { get; set; }
+    public DateTime? CreatedDate { get; set; }
 
     public DateTime? LastModified { get; set; }
 

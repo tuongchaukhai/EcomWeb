@@ -17,7 +17,6 @@ namespace EcomWeb.Services
             if (GetByTitle(product.ProductName).Result != null)
                 return null;
 
-            product.CreatedDate = DateTime.Now;
             await _productRepository.Create(product);
             return product;
         }

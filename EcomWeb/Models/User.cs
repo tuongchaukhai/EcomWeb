@@ -17,7 +17,7 @@ public partial class User
 
     public DateTime? LastLogin { get; set; }
 
-    public DateTime CreatedDate { get; set; }
+    public DateTime? CreatedDate { get; set; }
 
     public int RoleId { get; set; }
 

@@ -17,8 +17,6 @@ namespace EcomWeb.Services
             if (_userRepository.SearchByEmail(user.Email).Result != null) //exist
                 return null;
 
-            user.CreatedDate = DateTime.Now; //Will add trigger in the future
-
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
             await _userRepository.Create(user);

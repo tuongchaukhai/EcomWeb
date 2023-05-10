@@ -112,12 +112,16 @@ public partial class MyDbContext : DbContext
         {
             entity.HasKey(e => e.ProductId).HasName("PK_Product_ProductID");
 
-            entity.ToTable("Product");
+            entity.ToTable("Product", tb =>
+                {
+                    tb.HasTrigger("trg_Product_CreatedDate");
+                    tb.HasTrigger("trg_Product_LastModified");
+                });
 
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.Alias).HasMaxLength(255);
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.CreatedDate).HasColumnType("date");
             entity.Property(e => e.LastModified).HasColumnType("datetime");
             entity.Property(e => e.MetaDesc).HasMaxLength(255);
             entity.Property(e => e.MetaKey).HasMaxLength(255);
@@ -146,10 +150,10 @@ public partial class MyDbContext : DbContext
         {
             entity.HasKey(e => e.UserId).HasName("PK_USER_UserID");
 
-            entity.ToTable("USER");
+            entity.ToTable("USER", tb => tb.HasTrigger("trg_USER_CreatedDate"));
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.CreatedDate).HasColumnType("date");
             entity.Property(e => e.Email).HasMaxLength(150);
             entity.Property(e => e.FullName).HasMaxLength(150);
             entity.Property(e => e.LastLogin).HasColumnType("datetime");
