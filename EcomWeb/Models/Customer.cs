@@ -19,11 +19,11 @@ public partial class Customer
 
     public string Phone { get; set; } = null!;
 
-    public string Address { get; set; } = null!;
+    public string? Address { get; set; }
 
-    public int District { get; set; }
+    public string? District { get; set; }
 
-    public int Ward { get; set; }
+    public string? Ward { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 

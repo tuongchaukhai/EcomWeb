@@ -62,11 +62,13 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.Avatar).HasMaxLength(150);
             entity.Property(e => e.Birthday).HasColumnType("datetime");
             entity.Property(e => e.CreatedDate).HasColumnType("date");
+            entity.Property(e => e.District).HasMaxLength(50);
             entity.Property(e => e.Email).HasMaxLength(150);
             entity.Property(e => e.FullName).HasMaxLength(150);
             entity.Property(e => e.LastLogin).HasColumnType("datetime");
             entity.Property(e => e.Password).HasMaxLength(150);
             entity.Property(e => e.Phone).HasMaxLength(12);
+            entity.Property(e => e.Ward).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Order>(entity =>
