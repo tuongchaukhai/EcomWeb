@@ -25,9 +25,9 @@ public partial class Customer
 
     public int Ward { get; set; }
 
-    public DateTime CreatedDate { get; set; }
+    public DateTime? CreatedDate { get; set; }
 
-    public DateTime? LastLogiin { get; set; }
+    public DateTime? LastLogin { get; set; }
 
     public bool Active { get; set; }
 

@@ -60,7 +60,6 @@ namespace EcomWeb.Services
             if (GetById(product.ProductId).Result == null)
                 return null;
 
-            product.LastModified = DateTime.Now;
             await _productRepository.Update(product);
             return product;
         }
