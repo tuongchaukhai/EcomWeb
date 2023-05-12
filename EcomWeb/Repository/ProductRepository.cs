@@ -19,6 +19,11 @@ namespace EcomWeb.Repository
             return new ProductsPage { Products = products, TotalRecords = totalRecords };
         }
 
+        public async Task<IEnumerable<Product>> ExportData()
+        {
+            return await _context.Products.Include(b => b.Category).ToListAsync();
+        }
+
         public async Task<Product> GetByTitle(string title)
         {
             return await _context.Products

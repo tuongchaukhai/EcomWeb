@@ -7,6 +7,8 @@ namespace EcomWeb.Repository
     public interface IProductRepository : IRepositoryBase<Product>
     {
         new Task<ProductsPage> GetAll(int page = 1, int pageSize = 10);
+        Task<IEnumerable<Product>> ExportData();
+
         Task<Product> GetByTitle(string title);
 
         Task<IEnumerable<Product>> GetByCategory(string categoryName);

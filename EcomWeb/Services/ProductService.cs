@@ -63,5 +63,10 @@ namespace EcomWeb.Services
             await _productRepository.Update(product);
             return product;
         }
+
+        public async Task<IEnumerable<Product>> ExportData()
+        {
+            return await _productRepository.ExportData();
+        }
     }
 }

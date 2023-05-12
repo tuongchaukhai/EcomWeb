@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CsvHelper;
+using CsvHelper.Configuration;
 using EcomWeb.Dtos.Product;
 using EcomWeb.Models;
 using EcomWeb.Services;
@@ -7,6 +8,8 @@ using ExcelDataReader;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Globalization;
+using System.IO;
+using System.Text;
 using static System.Reflection.Metadata.BlobBuilder;
 
 namespace EcomWeb.Controllers
@@ -60,9 +63,78 @@ namespace EcomWeb.Controllers
                     Message = ex.Message
                 });
             }
-
-
         }
+
+        [HttpGet("Export")]
+        public async Task<IActionResult> ExportData()
+        {
+            try
+            {
+                var products = await _productService.ExportData();
+                var productsResult = _mapper.Map<IEnumerable<ProductResultDto>>(products);
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    var writer = new StreamWriter(memoryStream, Encoding.UTF8);
+                    var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+                    csvWriter.WriteRecords(productsResult);
+                    writer.Flush();
+
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+
+                    var fileData = memoryStream.ToArray();
+
+                    return File(fileData, "text/csv", "products.csv", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return BadRequest(new ApiResponse
+                {
+                    StatusCode = 400,
+                    Message = ex.Message
+                });
+            }
+        }
+
+
+        //[HttpGet("Export")]
+        //public async Task<IActionResult> ExportData()
+        //{
+        //    var products = await _productService.ExportData();
+
+        //    using (var memoryStream = new MemoryStream())
+        //    {
+        //        //using (var writer = new StreamWriter(memoryStream, Encoding.UTF8))
+        //        using (var writer = new StreamWriter(memoryStream))
+        //        using (var csvWriter = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)
+        //        {
+        //            Delimiter = ","
+        //        }))
+        //        {
+        //            csvWriter.WriteRecords(products);
+        //        }
+
+
+        //        memoryStream.Seek(0, SeekOrigin.Begin);
+
+        //        var fileData = memoryStream.ToArray();
+
+        //        // Return the CSV file as a response
+        //        return File(fileData, "text/csv", "products.csv");
+
+        //        //var fileData = Encoding.UTF8.GetString(memoryStream.ToArray());
+
+        //        //// Set the response headers
+        //        //Response.Headers.Add("Content-Disposition", "attachment; filename=products.csv");
+        //        //Response.ContentType = "text/csv";
+
+        //        //// Return the CSV content as a string
+        //        //return Content(fileData);
+        //    }
+        //}
 
         [HttpPut]
         public async Task<ActionResult> Update(ProductUpdateDto productDto)
