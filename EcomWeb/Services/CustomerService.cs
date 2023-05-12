@@ -30,6 +30,11 @@ namespace EcomWeb.Services
             return true;
         }
 
+        public async Task<IEnumerable<Customer>> ExportData()
+        {
+            return await _customerRepository.ExportData();
+        }
+
         public async Task<CustomersPage> GetAll(int page = 1, int pageSize = 10)
         {
             return await _customerRepository.GetAll(page, pageSize);

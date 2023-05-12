@@ -11,6 +11,11 @@ namespace EcomWeb.Repository
         {
         }
 
+        public async Task<IEnumerable<Customer>> ExportData()
+        {
+            return await _context.Customers.ToListAsync();
+        }
+
         public async Task<CustomersPage> GetAll(int page = 1, int pageSize = 10)
         {
             var customers = await _context.Customers.ToListAsync();

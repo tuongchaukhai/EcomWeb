@@ -7,6 +7,8 @@ namespace EcomWeb.Repository
     {
         new Task<CustomersPage> GetAll(int page = 1, int pageSize = 10);
 
+        Task<IEnumerable<Customer>> ExportData();
+
         Task<Customer> GetByEmail(string email);
     }
 }

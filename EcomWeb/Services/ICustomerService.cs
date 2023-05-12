@@ -7,6 +7,7 @@ namespace EcomWeb.Services
     public interface ICustomerService
     {
         Task<CustomersPage> GetAll(int page = 1, int pageSize = 10);
+        Task<IEnumerable<Customer>> ExportData();
         Task<Customer> GetByEmail(string email);
         Task<Customer> GetById(int id);
         Task<Customer> Create(Customer customer);

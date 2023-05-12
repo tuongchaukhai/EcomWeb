@@ -30,10 +30,10 @@ namespace EcomWeb.Dtos.Customer
         public string Address { get; set; } = null!;
 
         [Required(ErrorMessage = "District is required")]
-        public int District { get; set; }
+        public string District { get; set; }
 
         [Required(ErrorMessage = "Ward is required")]
-        public int Ward { get; set; }
+        public string Ward { get; set; }
 
         public bool Active { get; set; }
     }
