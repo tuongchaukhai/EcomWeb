@@ -16,7 +16,7 @@ namespace EcomWeb.Services
         public async Task<Category> Create(Category category)
         {
             if (GetCategoryByName(category.CategoryName).Result != null)
-                return null;
+                throw new Exception("This category name already exists.");
 
             _categoryRepository.Create(category);
             return category;
@@ -25,7 +25,7 @@ namespace EcomWeb.Services
         public async Task<bool> Delete(Category category)
         {
             if (GetById(category.CategoryId).Result == null)
-                return false;
+                throw new Exception("This category doesn't exists.");
 
             _categoryRepository.Delete(category);
             return true;
@@ -49,7 +49,7 @@ namespace EcomWeb.Services
         public async Task<Category> Update(Category category)
         {
             if (GetById(category.CategoryId).Result == null)
-                return null;
+                throw new Exception("This category doesn't exists.");
 
             await _categoryRepository.Update(category);
             return category;

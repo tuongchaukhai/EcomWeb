@@ -34,58 +34,74 @@ namespace EcomWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoryAddDto categoryDto)
         {
-            var category = await _categoryService.Create(_mapper.Map<Category>(categoryDto));
-            if (category == null)
+            try
+            {
+                var category = await _categoryService.Create(_mapper.Map<Category>(categoryDto));
+
+                return Ok(new ApiResponse
+                {
+                    StatusCode = 200,
+                    Message = "Category created successfully.",
+                    Data = _mapper.Map<CategoryResultDto>(category)
+                });
+            }
+            catch(Exception ex)
+            {
                 return BadRequest(new ApiResponse
                 {
                     StatusCode = 400,
-                    Message = "This category name already exists."
+                    Message = ex.Message
                 });
+            }
 
-            return Ok(new ApiResponse
-            {
-                StatusCode = 200,
-                Message = "Category created successfully.",
-                Data = _mapper.Map<CategoryResultDto>(category)
-            });
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(CategoryUpdateDto categoryDto)
         {
-            var category = await _categoryService.Update(_mapper.Map<Category>(categoryDto));
-            if (category == null)
+            try
+            {
+                var category = await _categoryService.Update(_mapper.Map<Category>(categoryDto));
+
+                return Ok(new ApiResponse
+                {
+                    StatusCode = 200,
+                    Message = "Category updated sccuessfully.",
+                    Data = _mapper.Map<CategoryResultDto>(category)
+                });
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(new ApiResponse
                 {
                     StatusCode = 400,
-                    Message = "Category doesn't exists.",
+                    Message = ex.Message
                 });
-
-            return Ok(new ApiResponse
-            {
-                StatusCode = 200,
-                Message = "Category updated sccuessfully.",
-                Data = _mapper.Map<CategoryResultDto>(category)
-            });
+            }
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var category = await _categoryService.GetById(id);
-            if(category == null)
+            try
+            {
+                var category = await _categoryService.GetById(id);
+
+                await _categoryService.Delete(category);
+                return Ok(new ApiResponse
+                {
+                    StatusCode = 200,
+                    Message = "Category removed sccuessfully.",
+                });
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(new ApiResponse
                 {
                     StatusCode = 400,
-                    Message = "Category doesn't exists.",
+                    Message = ex.Message
                 });
-
-            await _categoryService.Delete(category);
-            return Ok(new ApiResponse
-            {
-                StatusCode = 200,
-                Message = "Category removed sccuessfully.",
-            });
+            }
         }
     }
 }
