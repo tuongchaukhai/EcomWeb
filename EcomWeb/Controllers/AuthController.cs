@@ -101,7 +101,7 @@ namespace EcomWeb.Controllers
                     throw new Exception("This email already exists.");
 
                 string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
-
+                
                 var customer = new Customer
                 {
                     Email = registerDto.Email,
