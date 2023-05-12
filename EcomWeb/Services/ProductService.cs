@@ -15,7 +15,7 @@ namespace EcomWeb.Services
         public async Task<Product> Create(Product product)
         {
             if (GetByTitle(product.ProductName).Result != null)
-                return null;
+                throw new Exception("This product title already exists.");
 
             await _productRepository.Create(product);
             return product;
@@ -24,7 +24,7 @@ namespace EcomWeb.Services
         public async Task<bool> Delete(Product product)
         {
             if (GetById(product.ProductId).Result == null)
-                return false;
+                throw new Exception("This product doesn't exists.");
 
             await _productRepository.Delete(product);
             return true;
@@ -58,7 +58,7 @@ namespace EcomWeb.Services
         public async Task<Product> Update(Product product)
         {
             if (GetById(product.ProductId).Result == null)
-                return null;
+                throw new Exception("This product doesn't exists.");
 
             await _productRepository.Update(product);
             return product;

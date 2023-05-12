@@ -28,7 +28,7 @@ namespace EcomWeb.Controllers
         {
             var products = await _productService.GetAll(page, pageSize);
 
-            if (!products.Products.Any()) return NotFound();
+            //if (!products.Products.Any()) return NotFound();
 
             return Ok(new ApiResponse
             {
@@ -41,63 +41,80 @@ namespace EcomWeb.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(ProductAddDto productDto)
         {
-            var product = await _productService.Create(_mapper.Map<Product>(productDto));
-            if (product == null)
+            try
+            {
+                var product = await _productService.Create(_mapper.Map<Product>(productDto));
+
+                return Ok(new ApiResponse
+                {
+                    StatusCode = 200,
+                    Message = "Product created successfully.",
+                    Data = _mapper.Map<ProductResultDto>(product)
+                });
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(new ApiResponse
                 {
                     StatusCode = 400,
-                    Message = "This title is already exists."
+                    Message = ex.Message
                 });
+            }
 
-            return Ok(new ApiResponse
-            {
-                StatusCode = 200,
-                Message = "Product created successfully.",
-                Data = _mapper.Map<ProductResultDto>(product)
-            });
+
         }
 
         [HttpPut]
         public async Task<ActionResult> Update(ProductUpdateDto productDto)
         {
-            var productEdit = await _productService.GetById(productDto.ProductId);
-            _mapper.Map(productDto, productEdit);
-            var product = await _productService.Update(productEdit);
+            try
+            {
+                var productEdit = await _productService.GetById(productDto.ProductId);
+                _mapper.Map(productDto, productEdit);
+                var product = await _productService.Update(productEdit);
 
-            //var product = await _productService.Update(_mapper.Map<Product>(productDto));
+                //var product = await _productService.Update(_mapper.Map<Product>(productDto));
 
-            if (product == null)
+                return Ok(new ApiResponse
+                {
+                    StatusCode = 200,
+                    Message = "Product updated successfully.",
+                    Data = _mapper.Map<ProductResultDto>(product)
+                });
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(new ApiResponse
                 {
                     StatusCode = 400,
-                    Message = "This product doesn't exists."
+                    Message = ex.Message
                 });
+            }
 
-            return Ok(new ApiResponse
-            {
-                StatusCode = 200,
-                Message = "Product updated successfully.",
-                Data = _mapper.Map<ProductResultDto>(product)
-            });
         }
 
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
-            var product = await _productService.GetById(id);
-            if (product == null)
+            try
+            {
+                var product = await _productService.GetById(id);
+
+                await _productService.Delete(product);
+                return Ok(new ApiResponse
+                {
+                    StatusCode = 200,
+                    Message = "Product removed successfully.",
+                });
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(new ApiResponse
                 {
                     StatusCode = 400,
-                    Message = "This product doesn't exists."
+                    Message = ex.Message
                 });
-
-            await _productService.Delete(product);
-            return Ok(new ApiResponse
-            {
-                StatusCode = 200,
-                Message = "Product removed successfully.",
-            });
+            }
         }
 
 
@@ -146,7 +163,7 @@ namespace EcomWeb.Controllers
                 using (var reader = new StreamReader(file.OpenReadStream()))
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
-                    while(csv.Read())
+                    while (csv.Read())
                     {
                         var productDto = new ProductAddDto
                         {
@@ -173,7 +190,12 @@ namespace EcomWeb.Controllers
             }
             else
             {
-                return BadRequest("Unsupported file format.");
+                return BadRequest(new ApiResponse
+                {
+                    StatusCode = 400,
+                    Message = "Unsupported file format."
+                }
+                    );
             }
             return Ok(new ApiResponse
             {
