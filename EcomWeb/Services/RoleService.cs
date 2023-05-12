@@ -14,7 +14,7 @@ namespace EcomWeb.Services
         public async Task<Role> Create(Role role)
         {
             if (_roleRepository.GetByRoleName(role.RoleName).Result != null)
-                return null;
+                throw new Exception("This role name is already exists.");
 
             await _roleRepository.Create(role);
 
